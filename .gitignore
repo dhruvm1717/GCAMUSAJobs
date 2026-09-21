@@ -1,2 +1,5 @@
 .Rproj.user
 .Rhistory
+tests/testthat/test-GCAM_EJ.R
+R/data.R
+R/data.R

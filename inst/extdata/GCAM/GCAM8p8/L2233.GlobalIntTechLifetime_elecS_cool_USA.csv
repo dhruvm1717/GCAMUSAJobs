@@ -1,0 +1,222 @@
+supplysector,subsector0,subsector,year,lifetime,intermittent.technology
+base load generation,wind,wind_base,2021,30,wind_base
+base load generation,wind,wind_base,2025,30,wind_base
+base load generation,wind,wind_base,2030,30,wind_base
+base load generation,wind,wind_base,2035,30,wind_base
+base load generation,wind,wind_base,2040,30,wind_base
+base load generation,wind,wind_base,2045,30,wind_base
+base load generation,wind,wind_base,2050,30,wind_base
+base load generation,wind,wind_base,2055,30,wind_base
+base load generation,wind,wind_base,2060,30,wind_base
+base load generation,wind,wind_base,2065,30,wind_base
+base load generation,wind,wind_base,2070,30,wind_base
+base load generation,wind,wind_base,2075,30,wind_base
+base load generation,wind,wind_base,2080,30,wind_base
+base load generation,wind,wind_base,2085,30,wind_base
+base load generation,wind,wind_base,2090,30,wind_base
+base load generation,wind,wind_base,2095,30,wind_base
+base load generation,wind,wind_base,2100,30,wind_base
+base load generation,wind,wind_base_offshore,2021,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2025,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2030,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2035,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2040,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2045,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2050,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2055,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2060,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2065,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2070,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2075,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2080,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2085,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2090,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2095,25,wind_base_offshore
+base load generation,wind,wind_base_offshore,2100,25,wind_base_offshore
+intermediate generation,solar,CSP_int,2021,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2025,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2030,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2035,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2040,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2045,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2050,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2055,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2060,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2065,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2070,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2075,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2080,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2085,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2090,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2095,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2100,30,CSP_int (dry_hybrid)
+intermediate generation,solar,CSP_int,2021,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2025,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2030,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2035,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2040,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2045,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2050,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2055,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2060,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2065,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2070,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2075,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2080,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2085,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2090,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2095,30,CSP_int (recirculating)
+intermediate generation,solar,CSP_int,2100,30,CSP_int (recirculating)
+intermediate generation,solar,PV_int,2021,30,PV_int
+intermediate generation,solar,PV_int,2025,30,PV_int
+intermediate generation,solar,PV_int,2030,30,PV_int
+intermediate generation,solar,PV_int,2035,30,PV_int
+intermediate generation,solar,PV_int,2040,30,PV_int
+intermediate generation,solar,PV_int,2045,30,PV_int
+intermediate generation,solar,PV_int,2050,30,PV_int
+intermediate generation,solar,PV_int,2055,30,PV_int
+intermediate generation,solar,PV_int,2060,30,PV_int
+intermediate generation,solar,PV_int,2065,30,PV_int
+intermediate generation,solar,PV_int,2070,30,PV_int
+intermediate generation,solar,PV_int,2075,30,PV_int
+intermediate generation,solar,PV_int,2080,30,PV_int
+intermediate generation,solar,PV_int,2085,30,PV_int
+intermediate generation,solar,PV_int,2090,30,PV_int
+intermediate generation,solar,PV_int,2095,30,PV_int
+intermediate generation,solar,PV_int,2100,30,PV_int
+intermediate generation,wind,wind_int,2021,30,wind_int
+intermediate generation,wind,wind_int,2025,30,wind_int
+intermediate generation,wind,wind_int,2030,30,wind_int
+intermediate generation,wind,wind_int,2035,30,wind_int
+intermediate generation,wind,wind_int,2040,30,wind_int
+intermediate generation,wind,wind_int,2045,30,wind_int
+intermediate generation,wind,wind_int,2050,30,wind_int
+intermediate generation,wind,wind_int,2055,30,wind_int
+intermediate generation,wind,wind_int,2060,30,wind_int
+intermediate generation,wind,wind_int,2065,30,wind_int
+intermediate generation,wind,wind_int,2070,30,wind_int
+intermediate generation,wind,wind_int,2075,30,wind_int
+intermediate generation,wind,wind_int,2080,30,wind_int
+intermediate generation,wind,wind_int,2085,30,wind_int
+intermediate generation,wind,wind_int,2090,30,wind_int
+intermediate generation,wind,wind_int,2095,30,wind_int
+intermediate generation,wind,wind_int,2100,30,wind_int
+peak generation,solar,CSP_peak,2021,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2025,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2030,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2035,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2040,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2045,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2050,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2055,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2060,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2065,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2070,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2075,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2080,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2085,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2090,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2095,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2100,30,CSP_peak (dry_hybrid)
+peak generation,solar,CSP_peak,2021,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2025,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2030,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2035,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2040,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2045,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2050,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2055,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2060,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2065,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2070,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2075,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2080,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2085,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2090,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2095,30,CSP_peak (recirculating)
+peak generation,solar,CSP_peak,2100,30,CSP_peak (recirculating)
+peak generation,solar,PV_peak,2021,30,PV_peak
+peak generation,solar,PV_peak,2025,30,PV_peak
+peak generation,solar,PV_peak,2030,30,PV_peak
+peak generation,solar,PV_peak,2035,30,PV_peak
+peak generation,solar,PV_peak,2040,30,PV_peak
+peak generation,solar,PV_peak,2045,30,PV_peak
+peak generation,solar,PV_peak,2050,30,PV_peak
+peak generation,solar,PV_peak,2055,30,PV_peak
+peak generation,solar,PV_peak,2060,30,PV_peak
+peak generation,solar,PV_peak,2065,30,PV_peak
+peak generation,solar,PV_peak,2070,30,PV_peak
+peak generation,solar,PV_peak,2075,30,PV_peak
+peak generation,solar,PV_peak,2080,30,PV_peak
+peak generation,solar,PV_peak,2085,30,PV_peak
+peak generation,solar,PV_peak,2090,30,PV_peak
+peak generation,solar,PV_peak,2095,30,PV_peak
+peak generation,solar,PV_peak,2100,30,PV_peak
+subpeak generation,solar,CSP_subpeak,2021,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2025,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2030,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2035,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2040,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2045,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2050,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2055,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2060,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2065,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2070,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2075,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2080,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2085,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2090,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2095,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2100,30,CSP_subpeak (dry_hybrid)
+subpeak generation,solar,CSP_subpeak,2021,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2025,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2030,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2035,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2040,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2045,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2050,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2055,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2060,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2065,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2070,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2075,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2080,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2085,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2090,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2095,30,CSP_subpeak (recirculating)
+subpeak generation,solar,CSP_subpeak,2100,30,CSP_subpeak (recirculating)
+subpeak generation,solar,PV_subpeak,2021,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2025,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2030,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2035,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2040,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2045,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2050,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2055,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2060,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2065,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2070,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2075,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2080,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2085,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2090,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2095,30,PV_subpeak
+subpeak generation,solar,PV_subpeak,2100,30,PV_subpeak
+subpeak generation,wind,wind_subpeak,2021,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2025,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2030,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2035,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2040,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2045,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2050,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2055,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2060,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2065,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2070,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2075,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2080,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2085,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2090,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2095,30,wind_subpeak
+subpeak generation,wind,wind_subpeak,2100,30,wind_subpeak

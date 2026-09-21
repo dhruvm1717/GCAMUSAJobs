@@ -88,7 +88,7 @@ PLOT_GW <- function(GW_activity, state = NULL, method = NULL){
 
   if (is.null(state)){
     GW_activity %>%
-      filter(Year >= 2020) %>%
+      filter(Year > GCAM_HIST_YEAR) %>%
       filter(activity %in% ACTIVITY) %>%
       mutate(activity = ifelse(grepl("add", activity), "Newly installed", activity),
              activity = ifelse(grepl("ret", activity), "Retired", activity)) %>%
@@ -99,11 +99,15 @@ PLOT_GW <- function(GW_activity, state = NULL, method = NULL){
              Retired = -Retired) %>%
       select(-installed) %>%
       gather(activity, value, `Newly installed`:`Previously Installed`) %>%
-      drop_na() %>%
+      drop_na() ->
+      plot_data
+
+    plot_data %>%
       ggplot() +
       geom_bar(aes(x = Year, y = value, fill = activity),
                stat = "identity", position = "stack") +
       facet_wrap(~ fuel, ncol = 4, scales = "free_y") +
+      scale_x_continuous(breaks = sort(unique(plot_data$Year))) +
       labs(x = "", y = "GW", title = paste0("USA ", method)) +
       theme_bw() + theme0 + theme1 +
       theme(legend.position = "bottom")  %>% return()
@@ -111,7 +115,7 @@ PLOT_GW <- function(GW_activity, state = NULL, method = NULL){
   else if (state %in% gcamusa.STATES){
     GW_activity %>%
       filter(region == state) %>%
-      filter(Year >= 2020) %>%
+      filter(Year > GCAM_HIST_YEAR) %>%
       filter(activity %in% ACTIVITY) %>%
       mutate(activity = ifelse(grepl("add", activity), "Newly installed", activity),
              activity = ifelse(grepl("ret", activity), "Retired", activity)) %>%
@@ -122,11 +126,15 @@ PLOT_GW <- function(GW_activity, state = NULL, method = NULL){
              Retired = -Retired) %>%
       select(-installed) %>%
       gather(activity, value, `Newly installed`:`Previously Installed`) %>%
-      drop_na() %>%
+      drop_na() ->
+      plot_data
+
+    plot_data %>%
       ggplot() +
       geom_bar(aes(x = Year, y = value, fill = activity),
                stat = "identity", position = "stack") +
       facet_wrap(~ fuel, ncol = 4, scales = "free_y") +
+      scale_x_continuous(breaks = sort(unique(plot_data$Year))) +
       labs(x = "", y = "GW", title = paste0(state, " ", method)) +
       theme_bw() + theme0 + theme1 +
       theme(legend.position = "bottom") %>% return()
@@ -153,14 +161,18 @@ PLOT_JOB <- function(JOB_activity, state = NULL){
   if(is.null(state)){
     JOB_activity %>%
       filter(!job %in% c("OM_fixed", "OM_var")) %>%
-      filter(Year >= 2020) %>%
+      filter(Year > GCAM_HIST_YEAR) %>%
       group_by(scenario, Year, fuel, job, Units) %>%
       summarise(value = sum(value, na.rm = T), .groups = "drop") %>%
-      drop_na() %>%
+      drop_na() ->
+      plot_data
+
+    plot_data %>%
       ggplot() +
       geom_bar(aes(x = Year, y = value/1000, fill = job),
                stat = "identity", position = "stack") +
       facet_wrap(~ fuel, ncol = 4, scales = "free_y") +
+      scale_x_continuous(breaks = sort(unique(plot_data$Year))) +
       labs(x = "", y = "Thousand people", title = "USA") +
       scale_fill_manual(values = colors) +
       theme_bw() + theme0 + theme1 +
@@ -171,14 +183,18 @@ PLOT_JOB <- function(JOB_activity, state = NULL){
     JOB_activity %>%
       filter(region == state) %>%
       filter(!job %in% c("OM_fixed", "OM_var")) %>%
-      filter(Year >= 2020) %>%
+      filter(Year > GCAM_HIST_YEAR) %>%
       group_by(scenario, Year, fuel, job, Units) %>%
       summarise(value = sum(value, na.rm = T), .groups = "drop") %>%
-      drop_na() %>%
+      drop_na() ->
+      plot_data
+
+    plot_data %>%
       ggplot() +
       geom_bar(aes(x = Year, y = value/1000, fill = job),
                stat = "identity", position = "stack") +
       facet_wrap(~ fuel, ncol = 4, scales = "free_y") +
+      scale_x_continuous(breaks = sort(unique(plot_data$Year))) +
       labs(x = "", y = "Thousand people", title = state) +
       scale_fill_manual(values = colors) +
       theme_bw() + theme0 + theme1 +
@@ -204,14 +220,18 @@ PLOT_JOB_TYPE <- function(JOB_activity, state = NULL){
 
   if (is.null(state)){
     JOB_activity %>%
-      filter(Year >= 2020) %>%
+      filter(Year > GCAM_HIST_YEAR) %>%
       filter(!job %in% c("OM_fixed", "OM_var")) %>%
       group_by(scenario, Year, job, Units) %>%
       summarise(value = sum(value, na.rm = T), .groups = "drop") %>%
-      drop_na() %>%
+      drop_na() ->
+      plot_data
+
+    plot_data %>%
       ggplot() +
       geom_bar(aes(x = Year, y = value/10^6, fill = job),
                stat = "identity", position = "stack") +
+      scale_x_continuous(breaks = sort(unique(plot_data$Year))) +
       labs(x = "", y = "Million people", title = "USA") +
       scale_fill_manual(values = colors) +
       theme_bw() + theme0 + theme1 +
@@ -221,14 +241,18 @@ PLOT_JOB_TYPE <- function(JOB_activity, state = NULL){
   else if (state %in% gcamusa.STATES){
     JOB_activity %>%
       filter(region == state) %>%
-      filter(Year >= 2020) %>%
+      filter(Year > GCAM_HIST_YEAR) %>%
       filter(!job %in% c("OM_fixed", "OM_var")) %>%
       group_by(scenario, Year, job, Units) %>%
       summarise(value = sum(value, na.rm = T), .groups = "drop") %>%
-      drop_na() %>%
+      drop_na() ->
+      plot_data
+
+    plot_data %>%
       ggplot() +
       geom_bar(aes(x = Year, y = value/10^3, fill = job),
                stat = "identity", position = "stack") +
+      scale_x_continuous(breaks = sort(unique(plot_data$Year))) +
       labs(x = "", y = "Thousand people", title = state) +
       scale_fill_manual(values = colors) +
       theme_bw() + theme0 + theme1 +

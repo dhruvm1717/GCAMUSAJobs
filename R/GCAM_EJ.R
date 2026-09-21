@@ -24,7 +24,7 @@ GCAM_EJ <- function(prj){
      separate(temp, c("temp", "vintage"), sep = "=") %>%
      select(-temp) %>%
      mutate(vintage = as.numeric(vintage)) %>%
-     filter(vintage >= 2015,
+     filter(vintage >= min(Year),
                   Year >= vintage)
 
   ## conventional ----
@@ -38,10 +38,16 @@ GCAM_EJ <- function(prj){
      separate(temp, c("temp", "vintage"), sep = "=") %>%
      select(-temp) %>%
      mutate(vintage = as.numeric(vintage)) %>%
-     filter(vintage >= 2015,
+     filter(vintage >= min(Year),
                   Year >= vintage)
 
   YEAR_RANGE <- sort(unique(elec_vintage0$Year))
+
+  # find scenario's last model year
+  elec_vintage0 %>%
+     group_by(scenario) %>%
+     summarise(scenario_max_year = max(Year), .groups = "drop") ->
+    scenario_max_year
 
   ## renewable resource ----
   # annual, by subsector, technology and vintage, EJ
@@ -65,14 +71,14 @@ GCAM_EJ <- function(prj){
 
   elec_input_RTPV %>%
      group_by(scenario, region, subsector, technology) %>%
-     mutate(Vin2020 = value[Year == A],
-                  Vin2020 = ifelse(Year >= A & Year < A + RTPVLT, Vin2020[Year == A], 0 )) %>%
+     mutate(!!paste0("Vin", A) := value[Year == A],
+                  !!paste0("Vin", A) := ifelse(Year >= A & Year < A + RTPVLT,
+                                                .data[[paste0("Vin", A)]][Year == A], 0 )) %>%
      ungroup() ->
     df
-  N <- length(unique(df$Year))
 
-  for (i in 2:N) {
-    TIME = A + (i-1)*5;
+  for (i in 2:length(YEAR_RANGE_RTPV)) {
+    TIME <- YEAR_RANGE_RTPV[i]
     df %>%
        mutate(!!paste0("Vin", TIME) := ifelse(value - rowSums( across( starts_with("Vin"))) > 0, # only add new vintage capacity if older vintage is not enough
                                                     value - rowSums( across( starts_with("Vin"))),
@@ -136,9 +142,13 @@ GCAM_EJ <- function(prj){
      ungroup() ->
     elec_vintage_real
 
-  # Calculate s-curve output fraction: GCAM 7.1 ----
+  # Calculate s-curve output fraction ----
+  # Expand to full YEAR_RANGE before evaluating the formula
 
   elec_vintage_real %>%
+     distinct(scenario, region, subsector, technology, vintage, Units) %>%
+    repeat_add_columns(tibble(Year = YEAR_RANGE)) %>%
+     filter(Year >= vintage) %>%
      left_join(SCurve,
               by = c("region", "subsector", "technology", "vintage")) %>%
      mutate(half.life = as.numeric(half.life),
@@ -159,12 +169,8 @@ GCAM_EJ <- function(prj){
      select(scenario, region, subsector, technology, vintage, Units, Year, s_curve_adj) ->
     s_curve_frac_adj
 
+  # no further expansion needed.
   s_curve_frac_adj %>%
-     select(-Year, -s_curve_adj) %>%  distinct() %>%
-    repeat_add_columns(tibble(Year = YEAR_RANGE)) %>% # expand the data to include years w/o production
-     left_join(s_curve_frac_adj,
-              by = c("scenario", "region", "subsector", "technology", "vintage", "Units", "Year")) %>%
-     replace_na(list(s_curve_adj = 0)) %>%
     # assume hydro does not retire
      mutate(s_curve_adj = ifelse(grepl("hydro", subsector), 1, s_curve_adj),
            # assume rooftop_PV has a 20 years lifetime, so s-curve-frac = 0 in year vintage + 20
@@ -185,6 +191,18 @@ GCAM_EJ <- function(prj){
      summarise(additions = sum(additions), .groups = "drop") ->
     elec_total_add_nogeo
 
+  # Year-over-year change in total installed capacity
+
+  elec_vintage_real %>%
+     group_by(scenario, region, subsector, Units, Year) %>%
+     summarise(total_installed = sum(real_cap), .groups = "drop") %>%
+     arrange(scenario, region, subsector, Units, Year) %>%
+     group_by(scenario, region, subsector, Units) %>%
+     mutate(delta_installed = total_installed - lag(total_installed)) %>%
+     ungroup() %>%
+     select(scenario, region, subsector, Units, Year, delta_installed) ->
+    total_installed_delta
+
   ### elec_gen from retired capacity ----
 
   s_curve_frac_adj_full %>%
@@ -198,6 +216,7 @@ GCAM_EJ <- function(prj){
     elec_gen_expect
 
   elec_gen_expect %>%
+     arrange(scenario, region, subsector, technology, vintage, Units, Year) %>%
      group_by(scenario, region, subsector, technology, Units, vintage) %>%
      mutate(prev_yr_expect =  lag(gen_expect, n = 1L),
                   natural_retire =  if_else(Year > vintage & prev_yr_expect > gen_expect,
@@ -228,6 +247,13 @@ GCAM_EJ <- function(prj){
      select(-value, - real_cap, -prev_year) %>%
     left_join_error_no_match(elec_retire_expect,
                              by = c("scenario", "region", "subsector", "technology", "vintage", "Units", "Year")) %>%
+     left_join(scenario_max_year, by = "scenario") %>%
+    # nuclear/rooftop: use S-curve expected retirement
+     mutate(retirements = case_when(
+              (grepl("nuc", subsector) | grepl("rooftop", subsector)) & Year <= scenario_max_year ~ natural_retire,
+              Year > scenario_max_year ~ 0,
+              TRUE ~ retirements)) %>%
+     select(-scenario_max_year) %>%
     # when there is early retirement in previous periods, the expected natural retirement when reaching lifetime can be larger than the observed retirement
     # therefore, adjust the natural retirement of each period, cap by the observed retirement
      mutate(natural_retire = ifelse(natural_retire > retirements, retirements, natural_retire),
@@ -252,13 +278,63 @@ GCAM_EJ <- function(prj){
   # Merge total additions and retirements data tables
   elec_total_ret_nogeo %>%
      left_join(elec_total_add_nogeo, by = c("scenario", "region", "subsector", "technology", "Units", "Year")) %>%
-     replace_na(list(additions = 0)) %>%  #
+     replace_na(list(additions = 0)) ->
+    elec_add_ret_merged
+
+  # derive nuclear additions re-derived from  installed-capacity
+
+  elec_add_ret_merged %>%
+     filter(grepl("nuc", subsector)) %>%
+     group_by(scenario, region, subsector, Units, Year) %>%
+     summarise(retirements = sum(retirements),
+                     natural_retire = sum(natural_retire),
+                     early_retire = sum(early_retire),
+                     additions = sum(additions),
+                     .groups = "drop") %>%
+     left_join(total_installed_delta, by = c("scenario", "region", "subsector", "Units", "Year")) %>%
+     mutate(additions = ifelse(!is.na(delta_installed), pmax(0, delta_installed + retirements), additions)) %>%
+     select(-delta_installed) %>%
+     mutate(technology = subsector) -> # nuclear no longer has technology breakdown
+    elec_add_ret_nuc
+
+  elec_add_ret_merged %>%
+     filter(!grepl("nuc", subsector)) ->
+    elec_add_ret_nonnuc
+
+  # subtract real 2024 historic generation from rpv first vintage year value:
+  # TEMPORARY MEASURE BECAUSE OF FIXED OUTPUT BEING APPLIED THROUGH ADDON FILE
+
+  elec_add_ret_nonnuc %>%
+     left_join(rooftop_hist_gen %>% select(region, hist_gen = value), by = "region") %>%
+     mutate(additions = ifelse(grepl("rooftop", subsector) & Year == A,
+                               pmax(0, additions - coalesce(hist_gen, 0)),
+                               additions)) %>%
+     select(-hist_gen) ->
+    elec_add_ret_nonnuc
+
+  elec_add_ret_nonnuc %>%
+     bind_rows(elec_add_ret_nuc) %>%
      mutate(add_adj =  if_else(additions >= early_retire, additions - early_retire, 0),
                   early_ret_adj =  if_else(early_retire > additions, early_retire - additions, 0),
                   ret_adj = early_ret_adj + natural_retire) -> # add the natural retire to get the updated total ret
     elec_add_ret_nogeo
 
   ## elec_gen activities of geothermal ----
+
+  # Geothermal: built once at GCAM_HIST_YEAR, rebuilt every GEOLT years,
+  # target years snapped to the nearest real future year. See NOTES.md "Geothermal".
+  GEOLT <- 30
+  GEO_HIST_YEAR <- GCAM_HIST_YEAR
+  GEO_FUTURE_YEARS <- gcam_future_years(YEAR_RANGE)
+  # guard against seq() erroring when the horizon doesn't reach one geothermal lifetime past GEO_HIST_YEAR
+  if (max(YEAR_RANGE) >= GEO_HIST_YEAR + GEOLT) {
+    GEO_REBUILD_TARGETS <- seq(GEO_HIST_YEAR + GEOLT, max(YEAR_RANGE), by = GEOLT)
+    GEO_REBUILD_YEARS <- unique(sapply(GEO_REBUILD_TARGETS, function(target) {
+      GEO_FUTURE_YEARS[which.min(abs(GEO_FUTURE_YEARS - target))]
+    }))
+  } else {
+    GEO_REBUILD_YEARS <- numeric(0)
+  }
 
   elec_vintage %>%
      filter(Year >= vintage) %>%
@@ -267,9 +343,9 @@ GCAM_EJ <- function(prj){
      group_by(scenario, region, subsector, technology) %>%
      mutate(real_cap = cummax(value)) %>% # use max of future operating capacity as the real capacity
      arrange(scenario, region, subsector, technology, Year) %>%
-     mutate(additions = ifelse(Year %in% c(2015, 2045, 2075), real_cap, 0),
-                  retirements = ifelse(Year %in% c(2045, 2075), real_cap, 0),
-                  natural_retire = ifelse(Year %in% c(2045, 2075), real_cap, 0),
+     mutate(additions = ifelse(Year %in% c(GEO_HIST_YEAR, GEO_REBUILD_YEARS), real_cap, 0),
+                  retirements = ifelse(Year %in% GEO_REBUILD_YEARS, real_cap, 0),
+                  natural_retire = ifelse(Year %in% GEO_REBUILD_YEARS, real_cap, 0),
                   early_retire = 0,
                   add_adj = additions,
                   early_ret_adj = early_retire,
@@ -307,6 +383,7 @@ GCAM_EJ <- function(prj){
   elec_activity %>%
     filter(!grepl("hydro", subsector)) %>%
     filter(!grepl("geo", subsector)) %>%
+    filter(!grepl("nuc", subsector)) %>%
     mutate(technology = gsub(" ", "", technology)) %>%
     left_join(cap_fac_join %>% rename(Year = year, capacity.factor = value),
             by = c("scenario", "region", "subsector", "technology", "Year")) %>%
@@ -315,6 +392,11 @@ GCAM_EJ <- function(prj){
                 mutate(technology = gsub(" ", "", technology)) %>%
                 mutate(fuel = ifelse(grepl("geo", subsector), "geo", fuel),
                        capacity.factor = geo_cf)) %>%
+    bind_rows(elec_activity %>%
+                filter(grepl("nuc", subsector)) %>%
+                mutate(technology = gsub(" ", "", technology)) %>%
+                mutate(fuel = ifelse(grepl("nuc", subsector), "nuclear", fuel),
+                       capacity.factor = nuc_cf)) %>%
     bind_rows(elec_activity %>%
                 filter(grepl("hydro", subsector)) %>%
                 mutate(technology = gsub(" ", "", technology)) %>%

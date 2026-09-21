@@ -17,6 +17,7 @@ OM_JOB <- function(GW_output){
 
   cap_fac_join <- GW_output$cap_fac_join
   GW_activity <- GW_output$GW_activity
+  FUTURE_YEARS <- gcam_future_years(GW_activity$Year)
 
   cap_fac_join %>%
      left_join(OM_cost %>%  rename(sector = sector.name, subsector = subsector.name),
@@ -50,7 +51,7 @@ OM_JOB <- function(GW_output){
 
   GW_activity %>%
      filter(activity == "installed") %>%
-     filter(Year >= 2020) %>%
+     filter(Year %in% FUTURE_YEARS) %>%
      left_join(EF.JEDI %>%  select(region, unit, OM, fuel), 
               by = c("region", "fuel")) %>%
      left_join(OM_share_adj %>%  select(region, Year = year, sector, subsector, technology, fixed_adj),
@@ -65,7 +66,7 @@ OM_JOB <- function(GW_output){
 
   GW_activity %>%
      filter(activity == "running") %>%
-     filter(Year >= 2020) %>%
+     filter(Year %in% FUTURE_YEARS) %>%
      left_join(EF.JEDI %>%  select(region, unit, OM, fuel),
               by = c("region", "fuel")) %>%
      left_join(OM_share_adj %>%  select(region, Year = year, sector, subsector, technology, variable_adj),
@@ -119,9 +120,10 @@ CON_JOB <- function(GW_output, method = NULL){
   }
 
   GW_activity<-GW_output$GW_activity
+  FUTURE_YEARS <- gcam_future_years(GW_activity$Year)
 
   GW_activity %>%
-     filter(Year >= 2020) %>%
+     filter(Year %in% FUTURE_YEARS) %>%
      filter(activity == ACTIVITY) %>%
      left_join(EF.JEDI %>%  select(region, unit, CON.L, fuel, Construction.Period.Y),
               by = c("region", "fuel")) %>%
@@ -133,7 +135,7 @@ CON_JOB <- function(GW_output, method = NULL){
      group_by(scenario, region, Year, fuel, subsector, job, Units) %>%
      summarise(value = sum(value, na.rm = T), .groups = "drop") %>%
      bind_rows(GW_activity %>%
-                        filter(Year >= 2020) %>%
+                        filter(Year %in% FUTURE_YEARS) %>%
                         filter(activity == ACTIVITY) %>%
                         left_join(EF.JEDI %>%  select(region, unit, CON.RL, fuel, Construction.Period.Y),
                           by = c("region", "fuel")) %>%
@@ -147,7 +149,7 @@ CON_JOB <- function(GW_output, method = NULL){
     fuel_CON_ppl_short
 
   GW_activity %>%
-     filter(Year >= 2020) %>%
+     filter(Year %in% FUTURE_YEARS) %>%
      filter(activity == ACTIVITY) %>%
      left_join(EF.JEDI %>%  select(region, unit, CON.L, CON.RL, fuel, Construction.Period.Y),
                      by = c("region", "fuel")) %>%
@@ -157,7 +159,7 @@ CON_JOB <- function(GW_output, method = NULL){
 
   GW_long %>%  select(-Year, -value) %>%
      distinct() %>%
-    repeat_add_columns(tibble::tibble(Year = c(seq(GCAM_futr_start, GCAM_futr_end, by = GCAM_model_step)))) %>%
+    repeat_add_columns(tibble::tibble(Year = FUTURE_YEARS)) %>%
      left_join(GW_long %>%  select(scenario, region, subsector, technology, Year, value),
                      by = c("scenario", "region", "subsector", "technology", "Year")) %>%
      arrange( across(-c(Year, value, CON.L, CON.RL))) %>%
@@ -172,7 +174,7 @@ CON_JOB <- function(GW_output, method = NULL){
      group_by(scenario, region, Year, fuel, subsector, job, Units) %>%
      summarise(value = sum(value, na.rm = T), .groups = "drop") %>%
      bind_rows(GW_long %>%  select(-Year, -value) %>%  distinct() %>%
-                       repeat_add_columns(tibble(Year = c(seq(GCAM_futr_start, GCAM_futr_end, by = GCAM_model_step)))) %>%
+                       repeat_add_columns(tibble(Year = FUTURE_YEARS)) %>%
                         left_join(GW_long %>%  select(scenario, region, subsector, technology, Year, value),
                                         by = c("scenario", "region", "subsector", "technology", "Year")) %>%
                         arrange( across(-c(Year, value, CON.L, CON.RL))) %>%
@@ -218,9 +220,10 @@ DECOM_JOB <- function(GW_output, method = NULL){
   }
 
   GW_activity<- GW_output$GW_activity
+  FUTURE_YEARS <- gcam_future_years(GW_activity$Year)
 
   GW_activity %>%
-     filter(Year >= 2020) %>%
+     filter(Year %in% FUTURE_YEARS) %>%
      filter(activity == ACTIVITY) %>%
      left_join(EF.JEDI %>%  select(region, unit, DECON, fuel, Construction.Period.Y),
               by = c("region", "fuel")) %>%
@@ -235,7 +238,7 @@ DECOM_JOB <- function(GW_output, method = NULL){
 
 
   GW_activity %>%
-     filter(Year >= 2020) %>%
+     filter(Year %in% FUTURE_YEARS) %>%
      filter(activity == ACTIVITY) %>%
      left_join(EF.JEDI %>%  select(region, unit, DECON, fuel, Construction.Period.Y),
                      by = c("region", "fuel")) %>%

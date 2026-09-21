@@ -13,4 +13,13 @@ years_mapping
 \description{
 Mapping between GCAM model years and related time periods.
 }
+\section{Deprecated}{
+
+Not used anywhere internally (had no consumers even before other
+GCAM-USA-version-dependent constants were deprecated). Reflects the
+GCAM-USA v7.1 assumption (2015 calibration year, future years from
+2020 by 5); not guaranteed to match any GCAM-USA version you are
+actually running. Retained only for backward compatibility.
+}
+
 \keyword{datasets}

@@ -13,4 +13,13 @@ GCAM_futr_start
 \description{
 Starting year used for future GCAM model periods.
 }
+\section{Deprecated}{
+
+No longer used internally - year sequences are now derived at runtime
+from actual query data (see \code{gcam_future_years()}). Retained only for
+backward compatibility with code that may reference it directly, and
+reflects the GCAM-USA v7.1 assumption (2020); not guaranteed to match
+the base year of any GCAM-USA version you are actually running.
+}
+
 \keyword{datasets}

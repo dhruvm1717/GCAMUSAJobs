@@ -18,6 +18,9 @@ GCAM_futr_end <- 2100
 
 # capacity factor ----
 geo_cf <- 0.76
+# https://www.eia.gov/electricity/annual/html/epa_04_08_b.html
+# nuclear capacity factors in the United States are consistently ~90%
+nuc_cf <- 0.90
 
 # years mapping ----
 years_mapping <- data.frame(year = c(rep("final-calibration-year", 1),
@@ -25,6 +28,15 @@ years_mapping <- data.frame(year = c(rep("final-calibration-year", 1),
                                          length(seq(2020, 2100, by = 5)))),
                             vintage = c(seq(2015, 2100, by = 5))) %>%
   dplyr::mutate(year = as.character(year))
+
+
+# dynamic year derivation (GCAM-USA 8.8) ----
+# Fixed constant, not derived from data - see NOTES.md "Base year update".
+GCAM_HIST_YEAR <- 2021
+
+gcam_future_years <- function(years) {
+  sort(unique(years[years > GCAM_HIST_YEAR]))
+}
 
 
 # GCAM-USA state name ----

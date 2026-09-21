@@ -14,7 +14,7 @@ License: BSD_2_clause + file LICENSE
 URL: https://jgcri.github.io/GCAMUSAJobs
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     assertthat,
     dplyr,
@@ -27,7 +27,7 @@ Imports:
 Remotes:
     JGCRI/rgcam
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 LazyData: true
 Suggests: 
     knitr,
